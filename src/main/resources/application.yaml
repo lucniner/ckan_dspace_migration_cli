@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   application:
     name: Digital Preservation CKAN-DSPACE migrator
@@ -8,4 +10,11 @@ ckan:
     host: 192.168.33.60
     port: 5000
     accessToken:
+dspace:
+  repository:
+    protocol: http://
+    host: localhost
+    port: 8080
+    accessToken: bb49e213-dc79-46bf-8c18-440b2ff71922
+
 

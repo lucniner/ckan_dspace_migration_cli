@@ -1,10 +1,8 @@
 package at.ac.tuwien.digital_preservation_ex_2;
 
 import at.ac.tuwien.digital_preservation_ex_2.config.CkanConfigProperties;
-import at.ac.tuwien.digital_preservation_ex_2.options.CkanListingOption;
-import at.ac.tuwien.digital_preservation_ex_2.options.HelpOption;
-import at.ac.tuwien.digital_preservation_ex_2.options.Option;
-import at.ac.tuwien.digital_preservation_ex_2.options.QuitOption;
+import at.ac.tuwien.digital_preservation_ex_2.config.DSpaceConfigProperties;
+import at.ac.tuwien.digital_preservation_ex_2.options.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,18 +17,17 @@ public class CommandLine {
   private final Map<String, Option> options = new HashMap<>();
 
 
-  public CommandLine(final RestTemplate restTemplate, final CkanConfigProperties properties) {
-    init(restTemplate, properties);
-  }
-
-  private void init(final RestTemplate restTemplate, final CkanConfigProperties properties) {
+  public CommandLine(final RestTemplate restTemplate, final CkanConfigProperties properties, final DSpaceConfigProperties dSpaceConfigProperties) {
     final Option quit = new QuitOption("q", "quitting programm");
     final Option help = new HelpOption("h", "help command", options, System.out);
     final Option lsCkan = new CkanListingOption("ls-ckan", "listing ckan datasets", restTemplate, System.out, properties);
+    final Option migrate = new MigrateOption("migrate", "migrating ...", restTemplate, System.out, properties, dSpaceConfigProperties);
     options.put(quit.getOptionCommand(), quit);
     options.put(lsCkan.getOptionCommand(), lsCkan);
     options.put(help.getOptionCommand(), help);
+    options.put(migrate.getOptionCommand(), migrate);
   }
+
 
   public Option getOption(final String argument) {
     return options.get(argument);
