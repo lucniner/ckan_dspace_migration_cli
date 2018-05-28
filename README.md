@@ -12,3 +12,12 @@ This is the second assignment ot digital preservation at the technical universit
 
 * http://192.168.33.60:5000/api/3/action/package_show?id=
 
+https://stackoverflow.com/questions/33055773/adding-a-new-bitstream-to-dspace-item-using-dspace-rest-api
+https://wiki.duraspace.org/display/DSDOC5x/REST+API#RESTAPI-RESTEndpoints
+http://docs.ckan.org/en/2.8/api/index.html#authentication-and-api-keys  
+
+postman
+localhost:8080/rest/items/4/bitstreams?name=angabe.pdf&description=text
+
+header:
+rest-dspace-token
