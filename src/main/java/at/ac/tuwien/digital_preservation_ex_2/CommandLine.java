@@ -1,26 +1,34 @@
 package at.ac.tuwien.digital_preservation_ex_2;
 
+import at.ac.tuwien.digital_preservation_ex_2.config.CkanConfigProperties;
+import at.ac.tuwien.digital_preservation_ex_2.options.CkanListingOption;
 import at.ac.tuwien.digital_preservation_ex_2.options.HelpOption;
 import at.ac.tuwien.digital_preservation_ex_2.options.Option;
 import at.ac.tuwien.digital_preservation_ex_2.options.QuitOption;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class CommandLine {
 
   private static final int LINE_LENGTH = 50;
   private static final char FILLING = '*';
   private final Map<String, Option> options = new HashMap<>();
 
-  public CommandLine() {
-    init();
+
+  public CommandLine(final RestTemplate restTemplate, final CkanConfigProperties properties) {
+    init(restTemplate, properties);
   }
 
-  private void init() {
+  private void init(final RestTemplate restTemplate, final CkanConfigProperties properties) {
     final Option quit = new QuitOption("q", "quitting programm");
     final Option help = new HelpOption("h", "help command", options, System.out);
+    final Option lsCkan = new CkanListingOption("ls-ckan", "listing ckan datasets", restTemplate, System.out, properties);
     options.put(quit.getOptionCommand(), quit);
+    options.put(lsCkan.getOptionCommand(), lsCkan);
     options.put(help.getOptionCommand(), help);
   }
 

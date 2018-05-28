@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: Digital Preservation CKAN-DSPACE migrator
+
+ckan:
+  repository:
+    protocol: http://
+    host: 192.168.33.60
+    port: 5000
+    accessToken:
+
