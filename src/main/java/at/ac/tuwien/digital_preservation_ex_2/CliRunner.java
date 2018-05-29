@@ -5,8 +5,6 @@ import at.ac.tuwien.digital_preservation_ex_2.options.Option;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
-
 @Component
 public class CliRunner implements CommandLineRunner {
 
@@ -25,14 +23,15 @@ public class CliRunner implements CommandLineRunner {
     System.out.println("the following commands are at your disposal:");
     final Option help = cli.getHelpOption();
     help.executeOption();
-    final Scanner scanner = new Scanner(System.in);
-    String line = scanner.nextLine();
-    while (line != null) {
-      final Option o = cli.getOption(line);
+//    final Scanner scanner = new Scanner(System.in);
+//    String line = scanner.nextLine();
+
+//    while (line != null) {
+    final Option o = cli.getOption("migrate");
       System.out.println(o.getOptionDescription());
       o.executeOption();
-      line = scanner.nextLine();
-    }
+//      line = scanner.nextLine();
+//    }
     System.exit(1);
   }
 }

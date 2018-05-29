@@ -1,7 +1,7 @@
 package at.ac.tuwien.digital_preservation_ex_2.options;
 
 import at.ac.tuwien.digital_preservation_ex_2.config.CkanConfigProperties;
-import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.CkanPackageResult;
+import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.SimpleCkanResult;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -46,11 +46,11 @@ public class CkanListingOption extends AbstractOption {
                     .concat(properties.getPort());
     final String path = "/api/3/action/package_list";
     final String url = baseUrl.concat(path);
-    final CkanPackageResult response = restTemplate.getForObject(url, CkanPackageResult.class);
+    final SimpleCkanResult response = restTemplate.getForObject(url, SimpleCkanResult.class);
     printResult(response);
   }
 
-  private void printResult(CkanPackageResult result) {
+  private void printResult(SimpleCkanResult result) {
     try {
       stream.write("The following PUBLIC data sets are available at the CKAN repository.\n".getBytes());
       final String[] results = result.getResult();
