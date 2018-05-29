@@ -2,13 +2,7 @@ package at.ac.tuwien.digital_preservation_ex_2.migration;
 
 import at.ac.tuwien.digital_preservation_ex_2.config.DSpaceConfigProperties;
 import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.DSpaceBitStream;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
@@ -29,18 +23,15 @@ public class DSpaceBitstreamCreator {
                     .concat(dSpaceConfigProperties.getPort());
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
     headers.add("rest-dspace-token", dSpaceConfigProperties.getAccessToken());
   }
 
-  public void create(final long itemId, final Resource resource, final String fileName, final String mimeType) {
+  public DSpaceBitStream create(final long itemId, final byte[] resource, final String fileName, final String mimeType) {
     final String path = "/rest/items/".concat(String.valueOf(itemId)).concat("/bitstreams?name=").concat(fileName);
     final String url = baseUrl.concat(path);
-    MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
-    bodyMap.add("bitstreams", resource);
-
-    HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-
-    restTemplate.exchange(url, HttpMethod.POST, requestEntity, DSpaceBitStream.class);
+    final HttpEntity<byte[]> requestEntity = new HttpEntity<>(resource, headers);
+    final ResponseEntity<DSpaceBitStream> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, DSpaceBitStream.class);
+    return responseEntity.getBody();
   }
 }

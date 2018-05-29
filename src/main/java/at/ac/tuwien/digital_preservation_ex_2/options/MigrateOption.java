@@ -4,8 +4,6 @@ import at.ac.tuwien.digital_preservation_ex_2.config.CkanConfigProperties;
 import at.ac.tuwien.digital_preservation_ex_2.config.DSpaceConfigProperties;
 import at.ac.tuwien.digital_preservation_ex_2.migration.*;
 import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.*;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.OutputStream;
@@ -116,13 +114,9 @@ public class MigrateOption extends AbstractOption {
     final CkanResource[] resources = ckanPackage.getResources();
     for (final CkanResource resource : resources) {
       final byte[] content = restTemplate.getForObject(resource.getUrl(), byte[].class);
-      final Resource sendingData = new ByteArrayResource(content);
       final DSpaceBitstreamCreator bitstreamCreator = new DSpaceBitstreamCreator(dSpaceConfigProperties, restTemplate);
-      bitstreamCreator.create(id, sendingData, resource.getName(), resource.getMimetype());
-
+      bitstreamCreator.create(id, content, resource.getName(), resource.getMimetype());
     }
-
-
   }
 
   private SimpleCkanResult retrieveOrganizations() {
