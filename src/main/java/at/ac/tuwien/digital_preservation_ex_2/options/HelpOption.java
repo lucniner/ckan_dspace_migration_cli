@@ -10,10 +10,10 @@ public class HelpOption extends AbstractOption {
   final OutputStream stream;
 
   public HelpOption(
-          final String optionCommand,
-          final String optionDescription,
-          final Map<String, Option> options,
-          final OutputStream stream) {
+      final String optionCommand,
+      final String optionDescription,
+      final Map<String, Option> options,
+      final OutputStream stream) {
     super(optionCommand, optionDescription);
     this.options = options;
     this.stream = stream;

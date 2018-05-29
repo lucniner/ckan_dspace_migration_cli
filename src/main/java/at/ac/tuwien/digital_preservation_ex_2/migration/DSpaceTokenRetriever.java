@@ -35,5 +35,4 @@ public class DSpaceTokenRetriever {
         restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
     return result.getBody();
   }
-
 }

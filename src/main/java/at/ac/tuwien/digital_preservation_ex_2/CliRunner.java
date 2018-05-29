@@ -29,7 +29,7 @@ public class CliRunner implements CommandLineRunner {
     String line = scanner.nextLine();
 
     while (line != null) {
-    final Option o = cli.getOption(line);
+      final Option o = cli.getOption(line);
       System.out.println(o.getOptionDescription());
       o.executeOption();
       line = scanner.nextLine();

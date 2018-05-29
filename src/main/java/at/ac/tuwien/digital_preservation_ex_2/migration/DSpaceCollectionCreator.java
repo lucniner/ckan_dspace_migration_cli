@@ -13,30 +13,30 @@ public class DSpaceCollectionCreator {
   private final RestTemplate restTemplate;
   private final String baseUrl;
 
-  public DSpaceCollectionCreator(final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
+  public DSpaceCollectionCreator(
+      final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
 
     this.baseUrl =
-            dSpaceConfigProperties
-                    .getProtocol()
-                    .concat(dSpaceConfigProperties.getHost())
-                    .concat(":")
-                    .concat(dSpaceConfigProperties.getPort());
-
+        dSpaceConfigProperties
+            .getProtocol()
+            .concat(dSpaceConfigProperties.getHost())
+            .concat(":")
+            .concat(dSpaceConfigProperties.getPort());
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     headers.add("rest-dspace-token", TokenHolder.getToken());
   }
 
-  public DSpaceCollection createCollection(final int communityId, final DSpaceCollection collection) {
-    final String path = "/rest/communities/".concat(String.valueOf(communityId)).concat("/collections");
+  public DSpaceCollection createCollection(
+      final int communityId, final DSpaceCollection collection) {
+    final String path =
+        "/rest/communities/".concat(String.valueOf(communityId)).concat("/collections");
     final String url = baseUrl.concat(path);
 
     HttpEntity<DSpaceCollection> entity = new HttpEntity<>(collection, headers);
     ResponseEntity<DSpaceCollection> result =
-            restTemplate.exchange(url, HttpMethod.POST, entity, DSpaceCollection.class);
+        restTemplate.exchange(url, HttpMethod.POST, entity, DSpaceCollection.class);
     return result.getBody();
-
   }
-
 }

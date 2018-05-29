@@ -13,15 +13,16 @@ public class DSpaceCommunityCreator {
   private final String url;
   private final RestTemplate restTemplate;
 
-  public DSpaceCommunityCreator(final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
+  public DSpaceCommunityCreator(
+      final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
 
     final String baseUrl =
-            dSpaceConfigProperties
-                    .getProtocol()
-                    .concat(dSpaceConfigProperties.getHost())
-                    .concat(":")
-                    .concat(dSpaceConfigProperties.getPort());
+        dSpaceConfigProperties
+            .getProtocol()
+            .concat(dSpaceConfigProperties.getHost())
+            .concat(":")
+            .concat(dSpaceConfigProperties.getPort());
     final String path = "/rest/communities";
     this.url = baseUrl.concat(path);
 
@@ -32,7 +33,7 @@ public class DSpaceCommunityCreator {
   public DSpaceCommunity createCommunity(final DSpaceCommunity community) {
     HttpEntity<DSpaceCommunity> entity = new HttpEntity<>(community, headers);
     ResponseEntity<DSpaceCommunity> result =
-            restTemplate.exchange(url, HttpMethod.POST, entity, DSpaceCommunity.class);
+        restTemplate.exchange(url, HttpMethod.POST, entity, DSpaceCommunity.class);
     return result.getBody();
   }
 }

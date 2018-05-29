@@ -44,6 +44,10 @@ public class MigrateOption extends AbstractOption {
 
   @Override
   public void executeOption() {
+    if(TokenHolder.getToken() == null){
+      System.out.println("Please login to migrate.");
+      return;
+    }
     migrateOrganizations();
     migratePackages();
   }

@@ -13,25 +13,29 @@ public class DSpaceBitstreamCreator {
   private final String baseUrl;
   private final RestTemplate restTemplate;
 
-  public DSpaceBitstreamCreator(final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
+  public DSpaceBitstreamCreator(
+      final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
     this.baseUrl =
-            dSpaceConfigProperties
-                    .getProtocol()
-                    .concat(dSpaceConfigProperties.getHost())
-                    .concat(":")
-                    .concat(dSpaceConfigProperties.getPort());
+        dSpaceConfigProperties
+            .getProtocol()
+            .concat(dSpaceConfigProperties.getHost())
+            .concat(":")
+            .concat(dSpaceConfigProperties.getPort());
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
     headers.add("rest-dspace-token", TokenHolder.getToken());
   }
 
-  public DSpaceBitStream create(final long itemId, final byte[] resource, final String fileName, final String mimeType) {
-    final String path = "/rest/items/".concat(String.valueOf(itemId)).concat("/bitstreams?name=").concat(fileName);
+  public DSpaceBitStream create(
+      final long itemId, final byte[] resource, final String fileName, final String mimeType) {
+    final String path =
+        "/rest/items/".concat(String.valueOf(itemId)).concat("/bitstreams?name=").concat(fileName);
     final String url = baseUrl.concat(path);
     final HttpEntity<byte[]> requestEntity = new HttpEntity<>(resource, headers);
-    final ResponseEntity<DSpaceBitStream> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, DSpaceBitStream.class);
+    final ResponseEntity<DSpaceBitStream> responseEntity =
+        restTemplate.exchange(url, HttpMethod.POST, requestEntity, DSpaceBitStream.class);
     return responseEntity.getBody();
   }
 }

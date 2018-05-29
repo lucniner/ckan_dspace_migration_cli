@@ -13,14 +13,15 @@ public class DSpaceItemCreator {
   private final String baseUrl;
   private final RestTemplate restTemplate;
 
-  public DSpaceItemCreator(final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
+  public DSpaceItemCreator(
+      final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
     this.baseUrl =
-            dSpaceConfigProperties
-                    .getProtocol()
-                    .concat(dSpaceConfigProperties.getHost())
-                    .concat(":")
-                    .concat(dSpaceConfigProperties.getPort());
+        dSpaceConfigProperties
+            .getProtocol()
+            .concat(dSpaceConfigProperties.getHost())
+            .concat(":")
+            .concat(dSpaceConfigProperties.getPort());
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     headers.add("rest-dspace-token", TokenHolder.getToken());
@@ -32,7 +33,7 @@ public class DSpaceItemCreator {
 
     HttpEntity<DSpaceItem> entity = new HttpEntity<>(item, headers);
     ResponseEntity<DSpaceItem> result =
-            restTemplate.exchange(url, HttpMethod.POST, entity, DSpaceItem.class);
+        restTemplate.exchange(url, HttpMethod.POST, entity, DSpaceItem.class);
     return result.getBody();
   }
 }
