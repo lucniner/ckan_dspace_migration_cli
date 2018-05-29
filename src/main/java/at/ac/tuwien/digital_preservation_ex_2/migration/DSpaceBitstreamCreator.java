@@ -24,7 +24,7 @@ public class DSpaceBitstreamCreator {
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-    headers.add("rest-dspace-token", dSpaceConfigProperties.getAccessToken());
+    headers.add("rest-dspace-token", TokenHolder.getToken());
   }
 
   public DSpaceBitStream create(final long itemId, final byte[] resource, final String fileName, final String mimeType) {

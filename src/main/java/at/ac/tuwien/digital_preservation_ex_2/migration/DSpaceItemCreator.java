@@ -23,7 +23,7 @@ public class DSpaceItemCreator {
                     .concat(dSpaceConfigProperties.getPort());
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    headers.add("rest-dspace-token", dSpaceConfigProperties.getAccessToken());
+    headers.add("rest-dspace-token", TokenHolder.getToken());
   }
 
   public DSpaceItem createItem(final int collectionId, final DSpaceItem item) {

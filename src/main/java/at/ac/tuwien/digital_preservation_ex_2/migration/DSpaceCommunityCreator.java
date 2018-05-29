@@ -26,7 +26,7 @@ public class DSpaceCommunityCreator {
     this.url = baseUrl.concat(path);
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    headers.add("rest-dspace-token", dSpaceConfigProperties.getAccessToken());
+    headers.add("rest-dspace-token", TokenHolder.getToken());
   }
 
   public DSpaceCommunity createCommunity(final DSpaceCommunity community) {

@@ -25,7 +25,7 @@ public class DSpaceCollectionCreator {
 
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    headers.add("rest-dspace-token", dSpaceConfigProperties.getAccessToken());
+    headers.add("rest-dspace-token", TokenHolder.getToken());
   }
 
   public DSpaceCollection createCollection(final int communityId, final DSpaceCollection collection) {

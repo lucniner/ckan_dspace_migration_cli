@@ -34,7 +34,7 @@ public class HelpOption extends AbstractOption {
     try {
       for (final Map.Entry<String, Option> optionEntry : options.entrySet()) {
         stream.write(optionEntry.getValue().getOptionCommand().getBytes());
-        stream.write("\t".getBytes());
+        stream.write("\t\t\t".getBytes());
         stream.write(optionEntry.getValue().getOptionDescription().getBytes());
         stream.write("\n".getBytes());
       }

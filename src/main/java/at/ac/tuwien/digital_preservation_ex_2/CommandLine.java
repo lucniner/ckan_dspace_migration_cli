@@ -18,14 +18,16 @@ public class CommandLine {
 
 
   public CommandLine(final RestTemplate restTemplate, final CkanConfigProperties properties, final DSpaceConfigProperties dSpaceConfigProperties) {
-    final Option quit = new QuitOption("q", "quitting programm");
-    final Option help = new HelpOption("h", "help command", options, System.out);
-    final Option lsCkan = new CkanListingOption("ls-ckan", "listing ckan datasets", restTemplate, System.out, properties);
-    final Option migrate = new MigrateOption("migrate", "migrating ...", restTemplate, System.out, properties, dSpaceConfigProperties);
+    final Option quit = new QuitOption("q", "Quitting programm");
+    final Option help = new HelpOption("h", "Help command", options, System.out);
+    final Option lsCkan = new CkanListingOption("ls-ckan", "Listing ckan datasets", restTemplate, System.out, properties);
+    final Option migrate = new MigrateOption("migrate", "Migrate resources from Ckan to DSpace", restTemplate, System.out, properties, dSpaceConfigProperties);
+    final Option login = new LoginOption("login", "Login to DSpace", restTemplate, dSpaceConfigProperties);
     options.put(quit.getOptionCommand(), quit);
     options.put(lsCkan.getOptionCommand(), lsCkan);
     options.put(help.getOptionCommand(), help);
     options.put(migrate.getOptionCommand(), migrate);
+    options.put(login.getOptionCommand(), login);
   }
 
 
