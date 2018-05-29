@@ -7,6 +7,9 @@ import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +111,15 @@ public class MigrateOption extends AbstractOption {
   private void migrateItem(final int collectionId, final CkanPackage ckanPackage) {
     final DSpaceItemCreator creator = new DSpaceItemCreator(dSpaceConfigProperties, restTemplate);
     final DSpaceItem dSpaceItem = new DSpaceItem(ckanPackage.getName());
-    dSpaceItem.addMetadata("dc.title", ckanPackage.getName()); //TODO set metadata
+    dSpaceItem.addMetadata("dc.title", ckanPackage.getName());
+    dSpaceItem.addMetadata("dc.subject", ckanPackage.getNotes());
+    dSpaceItem.addMetadata("dc.description", ckanPackage.getResources()[0].getDescription());
+    dSpaceItem.addMetadata("dc.date.issued", LocalDateTime.now().toString());
+    dSpaceItem.addMetadata("dc.creator", ckanPackage.getAuthor());
+    dSpaceItem.addMetadata("dc.contributor", ckanPackage.getMaintainer());
+    dSpaceItem.addMetadata("dc.type", ckanPackage.getResources()[0].getFormat());
+    dSpaceItem.addMetadata("dc.format", ckanPackage.getResources()[0].getMimetype());
+    dSpaceItem.addMetadata("dc.rights", ckanPackage.getLicense_title());
     final DSpaceItem item = creator.createItem(collectionId, dSpaceItem);
     itemMap.put(item.getName(), item);
     createBitstreams(item.getId(), ckanPackage);
