@@ -20,8 +20,8 @@ public class CkanPackage {
   private String license_id;
   private String license_title;
 
-  private CkanResources[] resources;
-  private CkanGroups[] groups;
+  private CkanResource[] resources;
+  private CkanGroup[] groups;
   private CkanOrganization organization;
 
   public String getMaintainer() {
@@ -114,20 +114,20 @@ public class CkanPackage {
     return this;
   }
 
-  public CkanResources[] getResources() {
+  public CkanResource[] getResources() {
     return resources;
   }
 
-  public CkanPackage setResources(final CkanResources[] resources) {
+  public CkanPackage setResources(final CkanResource[] resources) {
     this.resources = resources;
     return this;
   }
 
-  public CkanGroups[] getGroups() {
+  public CkanGroup[] getGroups() {
     return groups;
   }
 
-  public CkanPackage setGroups(final CkanGroups[] groups) {
+  public CkanPackage setGroups(final CkanGroup[] groups) {
     this.groups = groups;
     return this;
   }

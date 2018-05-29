@@ -3,7 +3,7 @@ package at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CkanResources {
+public class CkanResource {
 
   private String mimetype;
   private String description;
@@ -17,7 +17,7 @@ public class CkanResources {
     return mimetype;
   }
 
-  public CkanResources setMimetype(final String mimetype) {
+  public CkanResource setMimetype(final String mimetype) {
     this.mimetype = mimetype;
     return this;
   }
@@ -26,7 +26,7 @@ public class CkanResources {
     return description;
   }
 
-  public CkanResources setDescription(final String description) {
+  public CkanResource setDescription(final String description) {
     this.description = description;
     return this;
   }
@@ -35,7 +35,7 @@ public class CkanResources {
     return name;
   }
 
-  public CkanResources setName(final String name) {
+  public CkanResource setName(final String name) {
     this.name = name;
     return this;
   }
@@ -44,7 +44,7 @@ public class CkanResources {
     return format;
   }
 
-  public CkanResources setFormat(final String format) {
+  public CkanResource setFormat(final String format) {
     this.format = format;
     return this;
   }
@@ -53,7 +53,7 @@ public class CkanResources {
     return url;
   }
 
-  public CkanResources setUrl(final String url) {
+  public CkanResource setUrl(final String url) {
     this.url = url;
     return this;
   }
@@ -62,7 +62,7 @@ public class CkanResources {
     return created;
   }
 
-  public CkanResources setCreated(final String created) {
+  public CkanResource setCreated(final String created) {
     this.created = created;
     return this;
   }
@@ -71,7 +71,7 @@ public class CkanResources {
     return size;
   }
 
-  public CkanResources setSize(final long size) {
+  public CkanResource setSize(final long size) {
     this.size = size;
     return this;
   }

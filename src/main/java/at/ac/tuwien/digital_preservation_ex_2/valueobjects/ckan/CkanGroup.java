@@ -3,7 +3,7 @@ package at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CkanGroups {
+public class CkanGroup {
 
   private String display_name;
   private String description;
@@ -13,7 +13,7 @@ public class CkanGroups {
     return display_name;
   }
 
-  public CkanGroups setDisplay_name(final String display_name) {
+  public CkanGroup setDisplay_name(final String display_name) {
     this.display_name = display_name;
     return this;
   }
@@ -22,7 +22,7 @@ public class CkanGroups {
     return description;
   }
 
-  public CkanGroups setDescription(final String description) {
+  public CkanGroup setDescription(final String description) {
     this.description = description;
     return this;
   }
@@ -31,7 +31,7 @@ public class CkanGroups {
     return name;
   }
 
-  public CkanGroups setName(final String name) {
+  public CkanGroup setName(final String name) {
     this.name = name;
     return this;
   }
