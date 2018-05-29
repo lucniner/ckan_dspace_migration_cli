@@ -21,3 +21,7 @@ localhost:8080/rest/items/4/bitstreams?name=angabe.pdf&description=text
 
 header:
 rest-dspace-token
+
+
+postman login (default user vagrant) für 6.x
+http://localhost:8080/rest/login?email=dspacedemo%2Badmin@gmail.com&password=vagrant
