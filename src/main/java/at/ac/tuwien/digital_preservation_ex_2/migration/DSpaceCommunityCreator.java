@@ -27,11 +27,12 @@ public class DSpaceCommunityCreator {
     this.url = baseUrl.concat(path);
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    headers.add("rest-dspace-token", TokenHolder.getToken());
+    headers.add(HttpHeaders.COOKIE, SessionHolder.getSession());
   }
 
   public DSpaceCommunity createCommunity(final DSpaceCommunity community) {
     HttpEntity<DSpaceCommunity> entity = new HttpEntity<>(community, headers);
+
     ResponseEntity<DSpaceCommunity> result =
         restTemplate.exchange(url, HttpMethod.POST, entity, DSpaceCommunity.class);
     return result.getBody();

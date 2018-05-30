@@ -1,8 +1,8 @@
 package at.ac.tuwien.digital_preservation_ex_2.options;
 
 import at.ac.tuwien.digital_preservation_ex_2.config.DSpaceConfigProperties;
-import at.ac.tuwien.digital_preservation_ex_2.migration.DSpaceTokenRetriever;
-import at.ac.tuwien.digital_preservation_ex_2.migration.TokenHolder;
+import at.ac.tuwien.digital_preservation_ex_2.migration.DSpaceSessionRetriever;
+import at.ac.tuwien.digital_preservation_ex_2.migration.SessionHolder;
 import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.DSpaceUser;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,9 +40,9 @@ public class LoginOption extends AbstractOption {
     String email = scanner.nextLine();
     System.out.println("Password:");
     String password = scanner.nextLine();
-    DSpaceTokenRetriever dSpaceTokenRetriever =
-        new DSpaceTokenRetriever(dSpaceConfigProperties, restTemplate);
-    TokenHolder.setToken(dSpaceTokenRetriever.getToken(new DSpaceUser(email, password)));
+    DSpaceSessionRetriever dSpaceTokenRetriever =
+        new DSpaceSessionRetriever(dSpaceConfigProperties, restTemplate);
+    SessionHolder.setSession(dSpaceTokenRetriever.getSession(new DSpaceUser(email, password)));
     System.out.println("Successfully logged in.");
   }
 }

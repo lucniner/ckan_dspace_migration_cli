@@ -7,9 +7,7 @@ import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.OutputStream;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +45,7 @@ public class MigrateOption extends AbstractOption {
 
   @Override
   public void executeOption() {
-    if(TokenHolder.getToken() == null){
+    if(SessionHolder.getSession() == null){
       System.out.println("Please login to migrate.");
       return;
     }

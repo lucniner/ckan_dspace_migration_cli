@@ -25,7 +25,7 @@ public class DSpaceCollectionCreator {
             .concat(dSpaceConfigProperties.getPort());
 
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    headers.add("rest-dspace-token", TokenHolder.getToken());
+    headers.add(HttpHeaders.COOKIE, SessionHolder.getSession());
   }
 
   public DSpaceCollection createCollection(

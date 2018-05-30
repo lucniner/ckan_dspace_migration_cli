@@ -4,16 +4,15 @@ import at.ac.tuwien.digital_preservation_ex_2.config.DSpaceConfigProperties;
 import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.DSpaceUser;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collections;
-
-public class DSpaceTokenRetriever {
+public class DSpaceSessionRetriever {
 
   private final HttpHeaders headers = new HttpHeaders();
   private final String baseUrl;
   private final RestTemplate restTemplate;
 
-  public DSpaceTokenRetriever(
+  public DSpaceSessionRetriever(
       final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
     this.baseUrl =
@@ -22,17 +21,26 @@ public class DSpaceTokenRetriever {
             .concat(dSpaceConfigProperties.getHost())
             .concat(":")
             .concat(dSpaceConfigProperties.getPort());
-
-    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
   }
 
-  public String getToken(final DSpaceUser dSpaceUser) {
+  public String getSession(final DSpaceUser dSpaceUser) {
+
     final String path = "/rest/login";
     final String url = baseUrl.concat(path);
 
-    HttpEntity<DSpaceUser> entity = new HttpEntity<>(dSpaceUser, headers);
-    ResponseEntity<String> result =
-        restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-    return result.getBody();
+    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+            .queryParam("email", dSpaceUser.getEmail())
+            .queryParam("password", dSpaceUser.getPassword());
+
+    System.out.println(builder.toUriString());
+
+    HttpEntity<?> entity = new HttpEntity<>(headers);
+
+    ResponseEntity<Void> result = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, Void.class);
+
+    String setCookie = result.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
+    String sessionId = setCookie.substring(0, setCookie.indexOf(";"));
+    System.out.println(sessionId);
+    return sessionId;
   }
 }
