@@ -23,6 +23,15 @@ public class CkanPackage {
   private CkanResource[] resources;
   private CkanGroup[] groups;
   private CkanOrganization organization;
+  private CkanCustomMetadata[] extras;
+
+  public CkanCustomMetadata[] getExtras() {
+    return extras;
+  }
+
+  public void setExtras(CkanCustomMetadata[] extras) {
+    this.extras = extras;
+  }
 
   public String getMaintainer() {
     return maintainer;

@@ -49,8 +49,13 @@ public class MigrateOption extends AbstractOption {
       System.out.println("Please login to migrate.");
       return;
     }
+    migrateSchema();
     migrateOrganizations();
     migratePackages();
+  }
+
+  private void migrateSchema(){
+      //TODO
   }
 
   private void migrateOrganizations() {
@@ -109,6 +114,7 @@ public class MigrateOption extends AbstractOption {
   private void migrateItem(final String collectionId, final CkanPackage ckanPackage) {
     final DSpaceItemCreator creator = new DSpaceItemCreator(dSpaceConfigProperties, restTemplate);
     final DSpaceItem dSpaceItem = new DSpaceItem(ckanPackage.getName());
+
     dSpaceItem.addMetadata("dc.title", ckanPackage.getName());
     dSpaceItem.addMetadata("dc.subject", ckanPackage.getNotes());
     dSpaceItem.addMetadata("dc.description", ckanPackage.getResources()[0].getDescription());
@@ -118,6 +124,18 @@ public class MigrateOption extends AbstractOption {
     dSpaceItem.addMetadata("dc.type", ckanPackage.getResources()[0].getFormat());
     dSpaceItem.addMetadata("dc.format", ckanPackage.getResources()[0].getMimetype());
     dSpaceItem.addMetadata("dc.rights", ckanPackage.getLicense_title());
+
+    CkanCustomMetadata[] extras = ckanPackage.getExtras();
+    for(CkanCustomMetadata customMetadata: extras){
+        String key = customMetadata.getKey();
+        String value = customMetadata.getValue();
+        if(key.equals("bitrate")){
+            dSpaceItem.addMetadata("dc.bitrate", value);
+        }else if(key.equals("length")){
+            //dSpaceItem.addMetadata("dc.length", value);
+        }
+    }
+
     final DSpaceItem item = creator.createItem(collectionId, dSpaceItem);
     itemMap.put(item.getName(), item);
     createBitstreams(item.getUuid(), ckanPackage);
