@@ -43,4 +43,13 @@ public class DSpaceItem {
     return metadata;
   }
 
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("DSpaceItem{");
+    sb.append("uuid='").append(uuid).append('\'');
+    sb.append(", metadata=").append(metadata);
+    sb.append(", name='").append(name).append('\'');
+    sb.append('}');
+    return sb.toString();
+  }
 }

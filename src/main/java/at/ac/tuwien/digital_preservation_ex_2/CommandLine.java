@@ -25,6 +25,13 @@ public class CommandLine {
     final Option lsCkan =
         new CkanListingOption(
             "ls-ckan", "Listing ckan datasets", restTemplate, System.out, properties);
+    final Option lsDSpace =
+        new DSpaceListingOption(
+            "ls-dspace",
+            "Listing dspace datasets",
+            restTemplate,
+            System.out,
+            dSpaceConfigProperties);
     final Option migrate =
         new MigrateOption(
             "migrate",
@@ -37,6 +44,7 @@ public class CommandLine {
         new LoginOption("login", "Login to DSpace", restTemplate, dSpaceConfigProperties);
     options.put(quit.getOptionCommand(), quit);
     options.put(lsCkan.getOptionCommand(), lsCkan);
+    options.put(lsDSpace.getOptionCommand(), lsDSpace);
     options.put(help.getOptionCommand(), help);
     options.put(migrate.getOptionCommand(), migrate);
     options.put(login.getOptionCommand(), login);
