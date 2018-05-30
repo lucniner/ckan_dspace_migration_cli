@@ -35,7 +35,6 @@ public class MigrateOption extends AbstractOption {
     this.stream = stream;
     this.ckanConfigProperties = properties;
     this.dSpaceConfigProperties = dSpaceConfigProperties;
-
   }
 
   @Override
@@ -45,7 +44,7 @@ public class MigrateOption extends AbstractOption {
 
   @Override
   public void executeOption() {
-    if(SessionHolder.getSession() == null){
+    if (SessionHolder.getSession() == null) {
       System.out.println("Please login to migrate.");
       return;
     }
@@ -54,8 +53,19 @@ public class MigrateOption extends AbstractOption {
     migratePackages();
   }
 
-  private void migrateSchema(){
-      //TODO
+  /* Will create an internal server error, if the fields already exist. */
+  private void migrateSchema() {
+    final DSpaceMetadataFieldCreator metadataFieldCreator =
+        new DSpaceMetadataFieldCreator(dSpaceConfigProperties, restTemplate);
+    metadataFieldCreator.createMetadataField(
+        new DSpaceMetadataField(
+            "dc.bitrate",
+            "bitrate",
+            null,
+            "Use primarily for bitrate of audio and video resources."));
+    metadataFieldCreator.createMetadataField(
+        new DSpaceMetadataField(
+            "dc.length", "length", null, "Use primarily for length of audio and video resources."));
   }
 
   private void migrateOrganizations() {
@@ -65,7 +75,7 @@ public class MigrateOption extends AbstractOption {
 
   private void migratePackages() {
     final CkanPackageRetriever retriever =
-            new CkanPackageRetriever(ckanConfigProperties, restTemplate);
+        new CkanPackageRetriever(ckanConfigProperties, restTemplate);
     final List<CkanPackage> ckanPackages = retriever.getPackages();
     for (final CkanPackage ckanPackage : ckanPackages) {
       handleCommunity(ckanPackage);
@@ -126,14 +136,14 @@ public class MigrateOption extends AbstractOption {
     dSpaceItem.addMetadata("dc.rights", ckanPackage.getLicense_title());
 
     CkanCustomMetadata[] extras = ckanPackage.getExtras();
-    for(CkanCustomMetadata customMetadata: extras){
-        String key = customMetadata.getKey();
-        String value = customMetadata.getValue();
-        if(key.equals("bitrate")){
-            dSpaceItem.addMetadata("dc.bitrate", value);
-        }else if(key.equals("length")){
-            //dSpaceItem.addMetadata("dc.length", value);
-        }
+    for (CkanCustomMetadata customMetadata : extras) {
+      String key = customMetadata.getKey();
+      String value = customMetadata.getValue();
+      if (key.equals("bitrate")) {
+        dSpaceItem.addMetadata("dc.bitrate", value);
+      } else if (key.equals("length")) {
+        dSpaceItem.addMetadata("dc.length", value);
+      }
     }
 
     final DSpaceItem item = creator.createItem(collectionId, dSpaceItem);
@@ -145,18 +155,19 @@ public class MigrateOption extends AbstractOption {
     final CkanResource[] resources = ckanPackage.getResources();
     for (final CkanResource resource : resources) {
       final byte[] content = restTemplate.getForObject(resource.getUrl(), byte[].class);
-      final DSpaceBitstreamCreator bitstreamCreator = new DSpaceBitstreamCreator(dSpaceConfigProperties, restTemplate);
+      final DSpaceBitstreamCreator bitstreamCreator =
+          new DSpaceBitstreamCreator(dSpaceConfigProperties, restTemplate);
       bitstreamCreator.create(id, content, resource.getName(), resource.getMimetype());
     }
   }
 
   private SimpleCkanResult retrieveOrganizations() {
     final String baseUrl =
-            ckanConfigProperties
+        ckanConfigProperties
             .getProtocol()
-                    .concat(ckanConfigProperties.getHost())
+            .concat(ckanConfigProperties.getHost())
             .concat(":")
-                    .concat(ckanConfigProperties.getPort());
+            .concat(ckanConfigProperties.getPort());
     final String path = "/api/3/action/organization_list";
     final String url = baseUrl.concat(path);
     return restTemplate.getForObject(url, SimpleCkanResult.class);
@@ -170,7 +181,7 @@ public class MigrateOption extends AbstractOption {
 
   private void migrateCommunity(final String name) {
     final DSpaceCommunityCreator dSpaceCommunityCreator =
-            new DSpaceCommunityCreator(dSpaceConfigProperties, restTemplate);
+        new DSpaceCommunityCreator(dSpaceConfigProperties, restTemplate);
     final DSpaceCommunity dSpaceCommunity = new DSpaceCommunity(null, name, "community", null);
     final DSpaceCommunity community = dSpaceCommunityCreator.createCommunity(dSpaceCommunity);
     communityMap.put(community.getName(), community);
@@ -178,10 +189,10 @@ public class MigrateOption extends AbstractOption {
 
   private void migrateCollection(final String communityId, final String name) {
     final DSpaceCollectionCreator collectionCreator =
-            new DSpaceCollectionCreator(dSpaceConfigProperties, restTemplate);
+        new DSpaceCollectionCreator(dSpaceConfigProperties, restTemplate);
     final DSpaceCollection dSpaceCollection = new DSpaceCollection(null, name, "collection", null);
     final DSpaceCollection collection =
-            collectionCreator.createCollection(communityId, dSpaceCollection);
+        collectionCreator.createCollection(communityId, dSpaceCollection);
     collectionMap.put(collection.getName(), collection);
   }
 
