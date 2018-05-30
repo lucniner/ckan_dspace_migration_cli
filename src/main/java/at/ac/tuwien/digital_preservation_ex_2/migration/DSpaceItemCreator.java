@@ -27,7 +27,7 @@ public class DSpaceItemCreator {
     headers.add(HttpHeaders.COOKIE, SessionHolder.getSession());
   }
 
-  public DSpaceItem createItem(final int collectionId, final DSpaceItem item) {
+  public DSpaceItem createItem(final String collectionId, final DSpaceItem item) {
     final String path = "/rest/collections/".concat(String.valueOf(collectionId)).concat("/items");
     final String url = baseUrl.concat(path);
 

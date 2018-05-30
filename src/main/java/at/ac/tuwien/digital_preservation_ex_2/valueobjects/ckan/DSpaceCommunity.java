@@ -2,7 +2,7 @@ package at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan;
 
 public class DSpaceCommunity {
 
-    private Integer id;
+    private String uuid;
     private String name;
     private String type;
     private String link;
@@ -10,19 +10,18 @@ public class DSpaceCommunity {
     public DSpaceCommunity() {
     }
 
-    public DSpaceCommunity(Integer id, String name, String type, String link) {
-        this.id = id;
+    public DSpaceCommunity(Integer uuid, String name, String type, String link) {
         this.name = name;
         this.type = type;
         this.link = link;
     }
 
-    public Integer getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -52,7 +51,7 @@ public class DSpaceCommunity {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("DSpaceCommunity{");
-        sb.append("id=").append(id);
+        sb.append("uuid=").append(uuid);
         sb.append(", name='").append(name).append('\'');
         sb.append(", type='").append(type).append('\'');
         sb.append(", link='").append(link).append('\'');

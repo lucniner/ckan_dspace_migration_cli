@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DSpaceItem {
 
-  private long id;
+  private String uuid;
   private List<DSpaceMetaData> metadata = new ArrayList<>();
   private String name;
 
@@ -16,12 +16,12 @@ public class DSpaceItem {
     this.name = name;
   }
 
-  public long getId() {
-    return id;
+  public String getUuid() {
+    return uuid;
   }
 
-  public DSpaceItem setId(final long id) {
-    this.id = id;
+  public DSpaceItem setUuid(final String uuid) {
+    this.uuid = uuid;
     return this;
   }
 

@@ -29,7 +29,7 @@ public class DSpaceCollectionCreator {
   }
 
   public DSpaceCollection createCollection(
-      final int communityId, final DSpaceCollection collection) {
+      final String communityId, final DSpaceCollection collection) {
     final String path =
         "/rest/communities/".concat(String.valueOf(communityId)).concat("/collections");
     final String url = baseUrl.concat(path);

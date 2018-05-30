@@ -29,7 +29,7 @@ public class DSpaceBitstreamCreator {
   }
 
   public DSpaceBitStream create(
-      final long itemId, final byte[] resource, final String fileName, final String mimeType) {
+      final String itemId, final byte[] resource, final String fileName, final String mimeType) {
     final String path =
         "/rest/items/".concat(String.valueOf(itemId)).concat("/bitstreams?name=").concat(fileName);
     final String url = baseUrl.concat(path);

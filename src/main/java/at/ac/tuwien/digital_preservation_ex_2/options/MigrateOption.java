@@ -82,12 +82,12 @@ public class MigrateOption extends AbstractOption {
     final CkanGroup[] groups = ckanPackage.getGroups();
     if (groups.length == 0) {
       if (collectionMap.get("default") == null) {
-        migrateCollection(community.getId(), "default");
+        migrateCollection(community.getUuid(), "default");
       }
     } else {
       for (final CkanGroup group : groups) {
         if (collectionMap.get(group.getName()) == null) {
-          migrateCollection(community.getId(), group.getName());
+          migrateCollection(community.getUuid(), group.getName());
         }
       }
     }
@@ -96,17 +96,17 @@ public class MigrateOption extends AbstractOption {
   private void handleItem(final CkanPackage ckanPackage) {
     final CkanGroup[] groups = ckanPackage.getGroups();
     if (groups.length == 0) {
-      final int id = collectionMap.get("default").getId();
+      final String id = collectionMap.get("default").getUuid();
       migrateItem(id, ckanPackage);
     } else {
       for (final CkanGroup group : groups) {
-        final int id = collectionMap.get(group.getName()).getId();
+        final String id = collectionMap.get(group.getName()).getUuid();
         migrateItem(id, ckanPackage);
       }
     }
   }
 
-  private void migrateItem(final int collectionId, final CkanPackage ckanPackage) {
+  private void migrateItem(final String collectionId, final CkanPackage ckanPackage) {
     final DSpaceItemCreator creator = new DSpaceItemCreator(dSpaceConfigProperties, restTemplate);
     final DSpaceItem dSpaceItem = new DSpaceItem(ckanPackage.getName());
     dSpaceItem.addMetadata("dc.title", ckanPackage.getName());
@@ -120,10 +120,10 @@ public class MigrateOption extends AbstractOption {
     dSpaceItem.addMetadata("dc.rights", ckanPackage.getLicense_title());
     final DSpaceItem item = creator.createItem(collectionId, dSpaceItem);
     itemMap.put(item.getName(), item);
-    createBitstreams(item.getId(), ckanPackage);
+    createBitstreams(item.getUuid(), ckanPackage);
   }
 
-  private void createBitstreams(final long id, final CkanPackage ckanPackage) {
+  private void createBitstreams(final String id, final CkanPackage ckanPackage) {
     final CkanResource[] resources = ckanPackage.getResources();
     for (final CkanResource resource : resources) {
       final byte[] content = restTemplate.getForObject(resource.getUrl(), byte[].class);
@@ -158,7 +158,7 @@ public class MigrateOption extends AbstractOption {
     communityMap.put(community.getName(), community);
   }
 
-  private void migrateCollection(final int communityId, final String name) {
+  private void migrateCollection(final String communityId, final String name) {
     final DSpaceCollectionCreator collectionCreator =
             new DSpaceCollectionCreator(dSpaceConfigProperties, restTemplate);
     final DSpaceCollection dSpaceCollection = new DSpaceCollection(null, name, "collection", null);
