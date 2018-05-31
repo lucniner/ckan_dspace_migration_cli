@@ -1,22 +1,24 @@
 package at.ac.tuwien.digital_preservation_ex_2.options;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import at.ac.tuwien.digital_preservation_ex_2.CommandLine;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 
+@Component
 public class HelpOption extends AbstractOption {
 
-  final Map<String, Option> options;
-  final OutputStream stream;
+  private static final String CMD = "h";
+  private static final String DESCRIPTION = "Help command";
 
-  public HelpOption(
-      final String optionCommand,
-      final String optionDescription,
-      final Map<String, Option> options,
-      final OutputStream stream) {
-    super(optionCommand, optionDescription);
-    this.options = options;
-    this.stream = stream;
+  private final CommandLine commandLine;
+
+  @Autowired
+  public HelpOption(@Lazy final CommandLine commandLine) {
+    super(CMD, DESCRIPTION);
+    this.commandLine = commandLine;
   }
 
   @Override
@@ -31,16 +33,11 @@ public class HelpOption extends AbstractOption {
 
   @Override
   public void executeOption() {
-    try {
-      for (final Map.Entry<String, Option> optionEntry : options.entrySet()) {
-        stream.write(optionEntry.getValue().getOptionCommand().getBytes());
-        stream.write("\t\t\t".getBytes());
-        stream.write(optionEntry.getValue().getOptionDescription().getBytes());
-        stream.write("\n".getBytes());
-      }
-      stream.flush();
-    } catch (IOException e) {
-      e.printStackTrace();
+    for (final Map.Entry<String, Option> optionEntry : commandLine.getOptions().entrySet()) {
+      System.out.println(
+          optionEntry.getValue().getOptionCommand()
+              + "\t"
+              + optionEntry.getValue().getOptionDescription());
     }
   }
 }

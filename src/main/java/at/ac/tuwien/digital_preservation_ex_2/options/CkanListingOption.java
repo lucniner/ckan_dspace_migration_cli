@@ -1,28 +1,19 @@
 package at.ac.tuwien.digital_preservation_ex_2.options;
 
-import at.ac.tuwien.digital_preservation_ex_2.config.CkanConfigProperties;
-import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.SimpleCkanResult;
-import org.springframework.web.client.RestTemplate;
+import at.ac.tuwien.digital_preservation_ex_2.migration.ckan.CkanPackageRetriever;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
+@Component
 public class CkanListingOption extends AbstractOption {
 
-  private final RestTemplate restTemplate;
-  private final OutputStream stream;
-  private final CkanConfigProperties properties;
+  private static final String CMD = "ls-ckan";
+  private static final String DESCRIPTION = "Listing ckan datasets";
 
-  public CkanListingOption(
-          final String optionCommand,
-          final String optionDescription,
-          final RestTemplate restTemplate,
-          final OutputStream stream,
-          final CkanConfigProperties properties) {
-    super(optionCommand, optionDescription);
-    this.restTemplate = restTemplate;
-    this.stream = stream;
-    this.properties = properties;
+  private final CkanPackageRetriever ckanPackageRetriever;
+
+  public CkanListingOption(final CkanPackageRetriever ckanPackageRetriever) {
+    super(CMD, DESCRIPTION);
+    this.ckanPackageRetriever = ckanPackageRetriever;
   }
 
   @Override
@@ -37,30 +28,13 @@ public class CkanListingOption extends AbstractOption {
 
   @Override
   public void executeOption() {
-
-    final String baseUrl =
-            properties
-                    .getProtocol()
-                    .concat(properties.getHost())
-                    .concat(":")
-                    .concat(properties.getPort());
-    final String path = "/api/3/action/package_list";
-    final String url = baseUrl.concat(path);
-    final SimpleCkanResult response = restTemplate.getForObject(url, SimpleCkanResult.class);
-    printResult(response);
+    printResult(ckanPackageRetriever.getPackageList());
   }
 
-  private void printResult(SimpleCkanResult result) {
-    try {
-      stream.write("The following PUBLIC data sets are available at the CKAN repository.\n".getBytes());
-      final String[] results = result.getResult();
-      for (int i = 0; i < results.length; i++) {
-        stream.write(results[i].getBytes());
-        stream.write("\n".getBytes());
-      }
-      stream.flush();
-    } catch (IOException e) {
-      e.printStackTrace();
+  private void printResult(String[] results) {
+    System.out.println("The following PUBLIC data sets are available at the CKAN repository.");
+    for (int i = 0; i < results.length; i++) {
+      System.out.println(results[i]);
     }
   }
 }

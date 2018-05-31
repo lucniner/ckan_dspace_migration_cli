@@ -1,10 +1,12 @@
-package at.ac.tuwien.digital_preservation_ex_2.migration;
+package at.ac.tuwien.digital_preservation_ex_2.migration.ckan;
 
 import at.ac.tuwien.digital_preservation_ex_2.config.CkanConfigProperties;
 import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.CkanPackage;
 import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.SimpleCkanResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -12,27 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class CkanPackageRetriever {
 
-  private final ObjectMapper objectMapper = new ObjectMapper();
-
-  private final CkanConfigProperties properties;
+  private final ObjectMapper objectMapper;
   private final RestTemplate restTemplate;
 
   private final String baseUrl;
   private final String packageListUrl;
 
+  @Autowired
   public CkanPackageRetriever(
-          final CkanConfigProperties properties, final RestTemplate restTemplate) {
-    this.properties = properties;
+      final CkanConfigProperties ckanConfigProperties, final RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
-
+    this.objectMapper = new ObjectMapper();
     this.baseUrl =
-            properties
-                    .getProtocol()
-                    .concat(properties.getHost())
-                    .concat(":")
-                    .concat(properties.getPort());
+        ckanConfigProperties
+            .getProtocol()
+            .concat(ckanConfigProperties.getHost())
+            .concat(":")
+            .concat(ckanConfigProperties.getPort());
     packageListUrl = baseUrl.concat("/api/3/action/package_list");
   }
 
@@ -45,9 +46,9 @@ public class CkanPackageRetriever {
     return ckanPackages;
   }
 
-  private String[] getPackageList() {
+  public String[] getPackageList() {
     final SimpleCkanResult result =
-            restTemplate.getForObject(packageListUrl, SimpleCkanResult.class);
+        restTemplate.getForObject(packageListUrl, SimpleCkanResult.class);
     return result.getResult();
   }
 

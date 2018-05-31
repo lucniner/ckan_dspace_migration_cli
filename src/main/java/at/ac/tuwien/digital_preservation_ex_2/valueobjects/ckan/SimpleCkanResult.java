@@ -8,8 +8,7 @@ public class SimpleCkanResult {
   private boolean success;
   private String[] result;
 
-  public SimpleCkanResult() {
-  }
+  public SimpleCkanResult() {}
 
   public String getHelp() {
     return help;

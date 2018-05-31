@@ -1,24 +1,31 @@
-package at.ac.tuwien.digital_preservation_ex_2.migration;
+package at.ac.tuwien.digital_preservation_ex_2.migration.dspace;
 
 import at.ac.tuwien.digital_preservation_ex_2.config.DSpaceConfigProperties;
-import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.DSpaceItem;
+import at.ac.tuwien.digital_preservation_ex_2.valueobjects.dspace.DSpaceItem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@Component
 public class DSpaceItemRetriever {
 
-  private final HttpHeaders headers = new HttpHeaders();
+  private final HttpHeaders headers;
   private final RestTemplate restTemplate;
   private final String baseUrl;
+  private final DSpaceSessionHolder DSpaceSessionHolder;
 
+  @Autowired
   public DSpaceItemRetriever(
-      final DSpaceConfigProperties dSpaceConfigProperties, final RestTemplate restTemplate) {
+      final DSpaceConfigProperties dSpaceConfigProperties,
+      final RestTemplate restTemplate,
+      final DSpaceSessionHolder DSpaceSessionHolder) {
     this.restTemplate = restTemplate;
-
+    this.DSpaceSessionHolder = DSpaceSessionHolder;
     this.baseUrl =
         dSpaceConfigProperties
             .getProtocol()
@@ -26,11 +33,12 @@ public class DSpaceItemRetriever {
             .concat(":")
             .concat(dSpaceConfigProperties.getPort());
 
+    headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    headers.add(HttpHeaders.COOKIE, SessionHolder.getSession());
   }
 
   public List<DSpaceItem> getItems() {
+    headers.add(HttpHeaders.COOKIE, DSpaceSessionHolder.getSession());
     final String path = "/rest/items";
     final String url = baseUrl.concat(path);
 

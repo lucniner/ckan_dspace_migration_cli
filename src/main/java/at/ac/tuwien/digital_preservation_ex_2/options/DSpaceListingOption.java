@@ -1,30 +1,24 @@
 package at.ac.tuwien.digital_preservation_ex_2.options;
 
-import at.ac.tuwien.digital_preservation_ex_2.config.DSpaceConfigProperties;
-import at.ac.tuwien.digital_preservation_ex_2.migration.DSpaceItemRetriever;
-import at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan.DSpaceItem;
-import org.springframework.web.client.RestTemplate;
+import at.ac.tuwien.digital_preservation_ex_2.migration.dspace.DSpaceItemRetriever;
+import at.ac.tuwien.digital_preservation_ex_2.valueobjects.dspace.DSpaceItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
+@Component
 public class DSpaceListingOption extends AbstractOption {
 
-  private final RestTemplate restTemplate;
-  private final OutputStream stream;
-  private final DSpaceConfigProperties properties;
+  private static final String CMD = "ls-dspace";
+  private static final String DESCRIPTION = "Listing dspace datasets";
 
-  public DSpaceListingOption(
-      final String optionCommand,
-      final String optionDescription,
-      final RestTemplate restTemplate,
-      final OutputStream stream,
-      final DSpaceConfigProperties properties) {
-    super(optionCommand, optionDescription);
-    this.restTemplate = restTemplate;
-    this.stream = stream;
-    this.properties = properties;
+  private final DSpaceItemRetriever dSpaceItemRetriever;
+
+  @Autowired
+  public DSpaceListingOption(final DSpaceItemRetriever dSpaceItemRetriever) {
+    super(CMD, DESCRIPTION);
+    this.dSpaceItemRetriever = dSpaceItemRetriever;
   }
 
   @Override
@@ -39,22 +33,13 @@ public class DSpaceListingOption extends AbstractOption {
 
   @Override
   public void executeOption() {
-
-    DSpaceItemRetriever dSpaceItemRetriever = new DSpaceItemRetriever(properties, restTemplate);
     printResult(dSpaceItemRetriever.getItems());
   }
 
   private void printResult(List<DSpaceItem> items) {
-    try {
-      stream.write(
-          "The following PUBLIC data sets are available at the CKAN repository.\n".getBytes());
-      for (DSpaceItem dSpaceItem : items) {
-        stream.write(dSpaceItem.getName().getBytes());
-        stream.write("\n".getBytes());
-      }
-      stream.flush();
-    } catch (IOException e) {
-      e.printStackTrace();
+    System.out.println("The following PUBLIC data sets are available at the CKAN repository.");
+    for (DSpaceItem dSpaceItem : items) {
+      System.out.println(dSpaceItem.getName());
     }
   }
 }

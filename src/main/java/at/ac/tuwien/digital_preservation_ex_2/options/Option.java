@@ -7,5 +7,4 @@ public interface Option {
   String getOptionDescription();
 
   void executeOption();
-
 }

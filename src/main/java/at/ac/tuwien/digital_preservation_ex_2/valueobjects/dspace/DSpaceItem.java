@@ -1,4 +1,4 @@
-package at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan;
+package at.ac.tuwien.digital_preservation_ex_2.valueobjects.dspace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,7 @@ public class DSpaceItem {
   private List<DSpaceMetaData> metadata = new ArrayList<>();
   private String name;
 
-  public DSpaceItem() {
-  }
+  public DSpaceItem() {}
 
   public DSpaceItem(final String name) {
     this.name = name;
@@ -37,7 +36,6 @@ public class DSpaceItem {
   public void addMetadata(final String key, final String value) {
     this.metadata.add(new DSpaceMetaData(key, value, null));
   }
-
 
   public List<DSpaceMetaData> getMetadata() {
     return metadata;

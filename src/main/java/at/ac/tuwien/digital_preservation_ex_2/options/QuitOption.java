@@ -1,8 +1,15 @@
 package at.ac.tuwien.digital_preservation_ex_2.options;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class QuitOption extends AbstractOption {
-  public QuitOption(final String optionCommand, final String optionDescription) {
-    super(optionCommand, optionDescription);
+
+  private static final String CMD = "q";
+  private static final String DESCRIPTION = "Quitting program.";
+
+  public QuitOption() {
+    super(CMD, DESCRIPTION);
   }
 
   @Override

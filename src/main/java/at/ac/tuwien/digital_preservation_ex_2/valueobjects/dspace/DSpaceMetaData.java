@@ -1,4 +1,4 @@
-package at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan;
+package at.ac.tuwien.digital_preservation_ex_2.valueobjects.dspace;
 
 public class DSpaceMetaData {
 
@@ -12,8 +12,7 @@ public class DSpaceMetaData {
     this.language = language;
   }
 
-  public DSpaceMetaData() {
-  }
+  public DSpaceMetaData() {}
 
   public String getKey() {
     return key;

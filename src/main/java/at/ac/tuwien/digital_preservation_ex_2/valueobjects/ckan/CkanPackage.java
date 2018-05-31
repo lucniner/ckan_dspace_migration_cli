@@ -1,6 +1,5 @@
 package at.ac.tuwien.digital_preservation_ex_2.valueobjects.ckan;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

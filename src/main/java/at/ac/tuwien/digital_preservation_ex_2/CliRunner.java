@@ -1,7 +1,7 @@
 package at.ac.tuwien.digital_preservation_ex_2;
 
-import at.ac.tuwien.digital_preservation_ex_2.config.CkanConfigProperties;
 import at.ac.tuwien.digital_preservation_ex_2.options.Option;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,10 @@ import java.util.Scanner;
 public class CliRunner implements CommandLineRunner {
 
   private final CommandLine cli;
-  private final CkanConfigProperties ckanConfigProperties;
 
-  public CliRunner(final CommandLine cli, final CkanConfigProperties ckanConfigProperties) {
+  @Autowired
+  public CliRunner(final CommandLine cli) {
     this.cli = cli;
-    this.ckanConfigProperties = ckanConfigProperties;
   }
 
   @Override

@@ -7,44 +7,44 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "dspace.repository")
 public class DSpaceConfigProperties {
 
-    private String protocol;
-    private String host;
-    private String port;
-    private String accessToken;
+  private String protocol;
+  private String host;
+  private String port;
+  private String accessToken;
 
-    public String getAccessToken() {
-        return accessToken;
-    }
+  public String getAccessToken() {
+    return accessToken;
+  }
 
-    public DSpaceConfigProperties setAccessToken(final String accessToken) {
-        this.accessToken = accessToken;
-        return this;
-    }
+  public DSpaceConfigProperties setAccessToken(final String accessToken) {
+    this.accessToken = accessToken;
+    return this;
+  }
 
-    public String getHost() {
-        return host;
-    }
+  public String getHost() {
+    return host;
+  }
 
-    public DSpaceConfigProperties setHost(final String host) {
-        this.host = host;
-        return this;
-    }
+  public DSpaceConfigProperties setHost(final String host) {
+    this.host = host;
+    return this;
+  }
 
-    public String getPort() {
-        return port;
-    }
+  public String getPort() {
+    return port;
+  }
 
-    public DSpaceConfigProperties setPort(final String port) {
-        this.port = port;
-        return this;
-    }
+  public DSpaceConfigProperties setPort(final String port) {
+    this.port = port;
+    return this;
+  }
 
-    public String getProtocol() {
-        return protocol;
-    }
+  public String getProtocol() {
+    return protocol;
+  }
 
-    public DSpaceConfigProperties setProtocol(final String protocol) {
-        this.protocol = protocol;
-        return this;
-    }
+  public DSpaceConfigProperties setProtocol(final String protocol) {
+    this.protocol = protocol;
+    return this;
+  }
 }
