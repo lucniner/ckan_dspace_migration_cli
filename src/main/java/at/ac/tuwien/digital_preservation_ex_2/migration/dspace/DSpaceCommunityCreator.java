@@ -15,15 +15,15 @@ public class DSpaceCommunityCreator {
   private final HttpHeaders headers;
   private final String url;
   private final RestTemplate restTemplate;
-  private final DSpaceSessionHolder DSpaceSessionHolder;
+  private final DSpaceSessionHolder dSpaceSessionHolder;
 
   @Autowired
   public DSpaceCommunityCreator(
       final DSpaceConfigProperties dSpaceConfigProperties,
       final RestTemplate restTemplate,
-      final DSpaceSessionHolder DSpaceSessionHolder) {
+      final DSpaceSessionHolder dSpaceSessionHolder) {
     this.restTemplate = restTemplate;
-    this.DSpaceSessionHolder = DSpaceSessionHolder;
+    this.dSpaceSessionHolder = dSpaceSessionHolder;
     final String baseUrl =
         dSpaceConfigProperties
             .getProtocol()
@@ -38,7 +38,7 @@ public class DSpaceCommunityCreator {
   }
 
   public DSpaceCommunity createCommunity(final DSpaceCommunity community) {
-    headers.add(HttpHeaders.COOKIE, DSpaceSessionHolder.getSession());
+    headers.add(HttpHeaders.COOKIE, dSpaceSessionHolder.getSession());
     HttpEntity<DSpaceCommunity> entity = new HttpEntity<>(community, headers);
 
     ResponseEntity<DSpaceCommunity> result =

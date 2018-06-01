@@ -15,13 +15,13 @@ public class DSpaceItemCreator {
   private final HttpHeaders headers;
   private final String baseUrl;
   private final RestTemplate restTemplate;
-  private final DSpaceSessionHolder DSpaceSessionHolder;
+  private final DSpaceSessionHolder dSpaceSessionHolder;
 
   @Autowired
   public DSpaceItemCreator(
       final DSpaceConfigProperties dSpaceConfigProperties,
       final RestTemplate restTemplate,
-      final DSpaceSessionHolder DSpaceSessionHolder) {
+      final DSpaceSessionHolder dSpaceSessionHolder) {
     this.restTemplate = restTemplate;
     this.baseUrl =
         dSpaceConfigProperties
@@ -29,13 +29,13 @@ public class DSpaceItemCreator {
             .concat(dSpaceConfigProperties.getHost())
             .concat(":")
             .concat(dSpaceConfigProperties.getPort());
-    this.DSpaceSessionHolder = DSpaceSessionHolder;
+    this.dSpaceSessionHolder = dSpaceSessionHolder;
     headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
   }
 
   public DSpaceItem createItem(final String collectionId, final DSpaceItem item) {
-    headers.add(HttpHeaders.COOKIE, DSpaceSessionHolder.getSession());
+    headers.add(HttpHeaders.COOKIE, dSpaceSessionHolder.getSession());
     final String path = "/rest/collections/".concat(String.valueOf(collectionId)).concat("/items");
     final String url = baseUrl.concat(path);
 

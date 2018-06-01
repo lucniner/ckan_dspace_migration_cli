@@ -16,15 +16,15 @@ public class DSpaceCollectionCreator {
   private final RestTemplate restTemplate;
 
   private final String baseUrl;
-  private final DSpaceSessionHolder DSpaceSessionHolder;
+  private final DSpaceSessionHolder dSpaceSessionHolder;
 
   @Autowired
   public DSpaceCollectionCreator(
       final DSpaceConfigProperties dSpaceConfigProperties,
       final RestTemplate restTemplate,
-      final DSpaceSessionHolder DSpaceSessionHolder) {
+      final DSpaceSessionHolder dSpaceSessionHolder) {
     this.restTemplate = restTemplate;
-    this.DSpaceSessionHolder = DSpaceSessionHolder;
+    this.dSpaceSessionHolder = dSpaceSessionHolder;
     this.baseUrl =
         dSpaceConfigProperties
             .getProtocol()
@@ -34,12 +34,12 @@ public class DSpaceCollectionCreator {
 
     headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    headers.add(HttpHeaders.COOKIE, DSpaceSessionHolder.getSession());
+    headers.add(HttpHeaders.COOKIE, dSpaceSessionHolder.getSession());
   }
 
   public DSpaceCollection createCollection(
       final String communityId, final DSpaceCollection collection) {
-    headers.add(HttpHeaders.COOKIE, DSpaceSessionHolder.getSession());
+    headers.add(HttpHeaders.COOKIE, dSpaceSessionHolder.getSession());
     final String path =
         "/rest/communities/".concat(String.valueOf(communityId)).concat("/collections");
     final String url = baseUrl.concat(path);

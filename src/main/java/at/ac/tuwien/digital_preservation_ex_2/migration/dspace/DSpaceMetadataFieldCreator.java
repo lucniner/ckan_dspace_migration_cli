@@ -15,15 +15,15 @@ public class DSpaceMetadataFieldCreator {
   private final HttpHeaders headers;
   private final String url;
   private final RestTemplate restTemplate;
-  private final DSpaceSessionHolder DSpaceSessionHolder;
+  private final DSpaceSessionHolder dSpaceSessionHolder;
 
   @Autowired
   public DSpaceMetadataFieldCreator(
       final DSpaceConfigProperties dSpaceConfigProperties,
       final RestTemplate restTemplate,
-      final DSpaceSessionHolder DSpaceSessionHolder) {
+      final DSpaceSessionHolder dSpaceSessionHolder) {
     this.restTemplate = restTemplate;
-    this.DSpaceSessionHolder = DSpaceSessionHolder;
+    this.dSpaceSessionHolder = dSpaceSessionHolder;
     final String baseUrl =
         dSpaceConfigProperties
             .getProtocol()
@@ -38,7 +38,7 @@ public class DSpaceMetadataFieldCreator {
   }
 
   public DSpaceMetadataField createMetadataField(final DSpaceMetadataField dSpaceMetadataField) {
-    headers.add(HttpHeaders.COOKIE, DSpaceSessionHolder.getSession());
+    headers.add(HttpHeaders.COOKIE, dSpaceSessionHolder.getSession());
     HttpEntity<DSpaceMetadataField> entity = new HttpEntity<>(dSpaceMetadataField, headers);
 
     ResponseEntity<DSpaceMetadataField> result =

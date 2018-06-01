@@ -16,13 +16,13 @@ public class DSpaceBitstreamCreator {
   private final RestTemplate restTemplate;
 
   private final String baseUrl;
-  private final DSpaceSessionHolder DSpaceSessionHolder;
+  private final DSpaceSessionHolder dSpaceSessionHolder;
 
   @Autowired
   public DSpaceBitstreamCreator(
       final DSpaceConfigProperties dSpaceConfigProperties,
       final RestTemplate restTemplate,
-      final DSpaceSessionHolder DSpaceSessionHolder) {
+      final DSpaceSessionHolder dSpaceSessionHolder) {
     this.restTemplate = restTemplate;
     this.baseUrl =
         dSpaceConfigProperties
@@ -30,7 +30,7 @@ public class DSpaceBitstreamCreator {
             .concat(dSpaceConfigProperties.getHost())
             .concat(":")
             .concat(dSpaceConfigProperties.getPort());
-    this.DSpaceSessionHolder = DSpaceSessionHolder;
+    this.dSpaceSessionHolder = dSpaceSessionHolder;
     headers = new HttpHeaders();
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -38,7 +38,7 @@ public class DSpaceBitstreamCreator {
 
   public DSpaceBitStream create(
       final String itemId, final byte[] resource, final String fileName, final String mimeType) {
-    headers.add(HttpHeaders.COOKIE, DSpaceSessionHolder.getSession());
+    headers.add(HttpHeaders.COOKIE, dSpaceSessionHolder.getSession());
     final String path =
         "/rest/items/".concat(String.valueOf(itemId)).concat("/bitstreams?name=").concat(fileName);
     final String url = baseUrl.concat(path);

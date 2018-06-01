@@ -17,15 +17,15 @@ public class DSpaceItemRetriever {
   private final HttpHeaders headers;
   private final RestTemplate restTemplate;
   private final String baseUrl;
-  private final DSpaceSessionHolder DSpaceSessionHolder;
+  private final DSpaceSessionHolder dSpaceSessionHolder;
 
   @Autowired
   public DSpaceItemRetriever(
       final DSpaceConfigProperties dSpaceConfigProperties,
       final RestTemplate restTemplate,
-      final DSpaceSessionHolder DSpaceSessionHolder) {
+      final DSpaceSessionHolder dSpaceSessionHolder) {
     this.restTemplate = restTemplate;
-    this.DSpaceSessionHolder = DSpaceSessionHolder;
+    this.dSpaceSessionHolder = dSpaceSessionHolder;
     this.baseUrl =
         dSpaceConfigProperties
             .getProtocol()
@@ -38,7 +38,7 @@ public class DSpaceItemRetriever {
   }
 
   public List<DSpaceItem> getItems() {
-    headers.add(HttpHeaders.COOKIE, DSpaceSessionHolder.getSession());
+    headers.add(HttpHeaders.COOKIE, dSpaceSessionHolder.getSession());
     final String path = "/rest/items";
     final String url = baseUrl.concat(path);
 
