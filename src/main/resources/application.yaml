@@ -9,12 +9,10 @@ ckan:
     protocol: http://
     host: 192.168.33.60
     port: 5000
-    accessToken:
 dspace:
   repository:
     protocol: http://
     host: localhost
     port: 8080
-    accessToken:
 
 

@@ -10,16 +10,7 @@ public class DSpaceConfigProperties {
   private String protocol;
   private String host;
   private String port;
-  private String accessToken;
 
-  public String getAccessToken() {
-    return accessToken;
-  }
-
-  public DSpaceConfigProperties setAccessToken(final String accessToken) {
-    this.accessToken = accessToken;
-    return this;
-  }
 
   public String getHost() {
     return host;
