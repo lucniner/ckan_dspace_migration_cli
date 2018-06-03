@@ -36,7 +36,7 @@ public class HelpOption extends AbstractOption {
     for (final Map.Entry<String, Option> optionEntry : commandLine.getOptions().entrySet()) {
       System.out.println(
           optionEntry.getValue().getOptionCommand()
-              + "\t"
+                  + "\t\t\t"
               + optionEntry.getValue().getOptionDescription());
     }
   }

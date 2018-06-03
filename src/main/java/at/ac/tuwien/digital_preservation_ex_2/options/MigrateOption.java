@@ -74,6 +74,11 @@ public class MigrateOption extends AbstractOption {
     migrateSchema();
     migrateOrganizations();
     migratePackages();
+    printSuccess();
+  }
+
+  private void printSuccess() {
+    System.out.println("Successfully migrated data");
   }
 
   /* Will create an internal server error, if the fields already exist. */
