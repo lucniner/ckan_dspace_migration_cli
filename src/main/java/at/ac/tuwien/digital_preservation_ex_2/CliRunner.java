@@ -18,20 +18,24 @@ public class CliRunner implements CommandLineRunner {
   }
 
   @Override
-  public void run(final String... args) throws Exception {
+  public void run(final String... args) {
 
     System.out.println(cli.getWelcomeHeader());
     System.out.println("The following commands are at your disposal:");
     final Option help = cli.getHelpOption();
     help.executeOption();
     final Scanner scanner = new Scanner(System.in);
-    String line = scanner.nextLine();
+    String line = scanner.nextLine().trim();
 
     while (line != null) {
       final Option o = cli.getOption(line);
-      System.out.println(o.getOptionDescription());
-      o.executeOption();
-      line = scanner.nextLine();
+      if (o != null) {
+        System.out.println(o.getOptionDescription());
+        o.executeOption();
+      } else {
+        System.out.println("No command found. Please use 'h' to print all available commands.");
+      }
+      line = scanner.nextLine().trim();
     }
     System.exit(1);
   }

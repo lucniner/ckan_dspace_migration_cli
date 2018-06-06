@@ -3,10 +3,20 @@ This is the second assignment ot digital preservation at the technical universit
 
 # Executing the tool
 
-use the gradle wrapper to build a bootable jar and then execute it.
+First adapt the configuration file with your properties under:
+
+```shell
+src/main/resources/application.yml
+```
+
+Second use the gradle wrapper to build a bootable jar.
 
 ```shell
 ./gradlew bootJar
+  ```
+
+Third execute the jar file from the created build folder. It is not necessary to pass any arguments because the tool is interactive and you can input your commands directly to the command line later on.
+```shell
 java -jar *.jar
   ```
   
